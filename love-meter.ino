@@ -1,5 +1,15 @@
+/* 
+This code runs an Arduino circuit that acts like an arcade/Chuck-E-Cheese style 
+"Love Meter".  sensor input is the voltage from an LM34 temperature sensor, output
+is a bank of 4 LED's.  As the sensor temp increases, the LED's rise (through eg RGB 
+style pattern).
+
+Sensor data is also sent to Serial cable.
+
+Nathan Moore 2024-02-16
+*/
+
 void setup() {
-  // declare the ledPin as an OUTPUT:
   pinMode(4, OUTPUT);
   pinMode(5, OUTPUT);
   pinMode(6, OUTPUT);
@@ -13,7 +23,8 @@ void loop() {
   float voltage_mV = 5000 * (sensorValue / 1023.0);
   Serial.print("\t");
   Serial.print(voltage_mV);
-  // LM34 is 10mV/F = 0.010 V/F
+  // LM34 is 10mV/F = 0.010 V/F 
+  // or scale factor(1F/10mV)
   float t_f = voltage_mV / 10;
   Serial.print("\t");
   Serial.println(t_f);
@@ -40,6 +51,7 @@ void loop() {
     digitalWrite(6, HIGH);
     digitalWrite(7, LOW);
   }
+  // fingertips are not generally very hot
   if (t_f > 90) {
     digitalWrite(4, LOW);
     digitalWrite(5, LOW);
